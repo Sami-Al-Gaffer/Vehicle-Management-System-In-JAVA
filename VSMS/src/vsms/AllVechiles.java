@@ -404,7 +404,7 @@ public class AllVechiles extends javax.swing.JFrame {
 
            
             d = allVehicleInformation.getValueAt(allVehicleInformation.getSelectedRow(), 0).toString();
-            System.out.print(d);
+            //System.out.print(d);
             
            
             

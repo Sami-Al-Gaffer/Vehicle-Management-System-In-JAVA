@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import static vsms.AllVechiles.d;
 import vsms.folder.MySqlConnect;
 import vsms.folder.SoldVehicles;
 import vsms.folder.TheModel;
@@ -25,6 +26,7 @@ import vsms.folder.Vehicles;
 public class SoldVechiles extends javax.swing.JFrame {
     java.sql.Date sqlDate;
     java.util.Date date;
+    static String d4;
     
     Connection conn = null;
     PreparedStatement pst = null;
@@ -143,12 +145,22 @@ public class SoldVechiles extends javax.swing.JFrame {
         ));
         soldVehicleInformation.setMinimumSize(new java.awt.Dimension(400, 0));
         soldVehicleInformation.setRowHeight(25);
+        soldVehicleInformation.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                soldVehicleInformationMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(soldVehicleInformation);
 
         jButton1.setBackground(new java.awt.Color(204, 0, 51));
         jButton1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("DELETE");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -334,6 +346,48 @@ public class SoldVechiles extends javax.swing.JFrame {
         soldvechiles.setVisible(true);
         dispose();
     }//GEN-LAST:event_soldVechilesActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+                conn= MySqlConnect.ConnectDB();
+        int p = JOptionPane.showConfirmDialog(rootPane, "Do You really want to delete?", "Deleted", JOptionPane.YES_NO_OPTION);
+        if(p==0){
+
+        
+        try{
+            
+            String delete = "delete  from vehicles where vehicle_id ="+ d4;
+            pst = conn.prepareStatement(delete);
+            pst.executeUpdate();
+            //DefaultTableModel model = (DefaultTableModel)vehicleInformation.getModel();
+           
+            //model.setRowCount(0);
+            show_soldvehicle();
+            JOptionPane.showMessageDialog(null, "Delete Data Successfully");
+           
+
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+
+        }
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void soldVehicleInformationMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_soldVehicleInformationMouseClicked
+        try {
+
+           
+            d4 = soldVehicleInformation.getValueAt(soldVehicleInformation.getSelectedRow(), 0).toString();
+            System.out.print(d);
+            
+           
+            
+    
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }
+          
+    }//GEN-LAST:event_soldVehicleInformationMouseClicked
 
     /**
      * @param args the command line arguments
