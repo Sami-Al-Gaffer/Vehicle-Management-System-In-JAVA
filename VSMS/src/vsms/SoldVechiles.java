@@ -18,6 +18,7 @@ import vsms.folder.MySqlConnect;
 import vsms.folder.SoldVehicles;
 import vsms.folder.TheModel;
 import vsms.folder.Vehicles;
+import static vsms.login.u_id;
 
 /**
  *
@@ -27,6 +28,7 @@ public class SoldVechiles extends javax.swing.JFrame {
     java.sql.Date sqlDate;
     java.util.Date date;
     static String d4;
+    static int v_id;
     
     Connection conn = null;
     PreparedStatement pst = null;
@@ -354,13 +356,18 @@ public class SoldVechiles extends javax.swing.JFrame {
 
         
         try{
+            String del = "SELECT vehicle_id FROM customer where id ="+ d4;
+            pst = conn.prepareStatement(del);
+            rs= pst.executeQuery();
+            if(rs.next()){
+                v_id = rs.getInt("vehicle_id");
+            }
             
-            String delete = "delete  from vehicles where vehicle_id ="+ d4;
+            
+            String delete = "delete  from vehicles where vehicle_id ="+ v_id;
             pst = conn.prepareStatement(delete);
             pst.executeUpdate();
-            //DefaultTableModel model = (DefaultTableModel)vehicleInformation.getModel();
-           
-            //model.setRowCount(0);
+
             show_soldvehicle();
             JOptionPane.showMessageDialog(null, "Delete Data Successfully");
            
@@ -377,7 +384,7 @@ public class SoldVechiles extends javax.swing.JFrame {
 
            
             d4 = soldVehicleInformation.getValueAt(soldVehicleInformation.getSelectedRow(), 0).toString();
-            System.out.print(d);
+            System.out.print(d4);
             
            
             
